@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class ProductModel {
-    private Long id;
-    private String nombre;
-    private Integer precio  ;
+    private ProductId id;
+    private ProductNombre nombre;
+    private ProductPrecio precio ;
 }

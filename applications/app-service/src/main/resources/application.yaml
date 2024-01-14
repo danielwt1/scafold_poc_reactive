@@ -25,10 +25,19 @@ management:
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
 database:
-  password: ${PASSWORD_DB}
-  username: ${USERNAME_DB}
-  schema: ${SCHEMA_DB}
-  host: ${HOST_DB}
-  port: ${PORT_DB}
-  database: ${DATABASE_NAME}
-
+  password: "${PASSWORD_DB}"
+  username: "${USERNAME_DB}"
+  schema: "${SCHEMA_DB}"
+  host: "${HOST_DB}"
+  port: "${PORT_DB}"
+  database: "${DATABASE_NAME}"
+commons:
+  jms:
+    output-concurrency: 10
+    output-queue: "DEV.QUEUE.1"
+    producer-ttl: 0
+    reactive: true
+ibm:
+  mq:
+    channel: "DEV.APP.SVRCONN"
+    user: "app"

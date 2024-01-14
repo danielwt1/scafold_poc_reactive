@@ -11,14 +11,16 @@ import reactor.core.publisher.Mono;
 public class ProductUseCase {
     // driven port
     private final ProductModelRepository productModelRepository;
-
+    // el Flux se crea tan pronto se llama al getAll
+    //Crea un flux en caliente es decir apenas crea el flujo hace la consulta
+    //puedo evitar este comportami9ento con Flux.defer que lo que hace es evitar que haga
+    //como las acciones hasta que alguien se suscribe
     public Flux<ProductModel> getAll(){
         return this.productModelRepository.getAll();
-
-    }
+            }
     public Mono<String> save (ProductModel productModel){
-        return this.productModelRepository.save(productModel)
-                .then(Mono.just("Se guardo con exito"));
+        return Mono.defer(()->this.productModelRepository.save(productModel)
+                .then(Mono.just("Se guardo con exito")));
 
     }
     public Mono<String> update (Long id,ProductModel model){

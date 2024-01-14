@@ -20,14 +20,10 @@ public class CustomAttributes extends DefaultErrorAttributes {
         Throwable throwable = super.getError(request);
         errorAttributes.put("date", LocalDate.now());
         errorAttributes.put("path", request.uri().toString());
-
         errorAttributes.put("message", throwable.getMessage());
-
         if (throwable instanceof ProductException) {
-
             errorAttributes.put("status", HttpStatus.BAD_REQUEST);
         }
-
         return errorAttributes;
     }
 }
