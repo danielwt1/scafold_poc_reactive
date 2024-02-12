@@ -8,7 +8,7 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
-public interface ProductEntityMapper {
+public interface ProductCommandEntityMapper {
     ProductModel toModel(Producto producto);
     Producto toEntity(ProductModel productModel);
 

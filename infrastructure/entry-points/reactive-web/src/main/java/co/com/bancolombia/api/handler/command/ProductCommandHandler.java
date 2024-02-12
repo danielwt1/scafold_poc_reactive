@@ -1,4 +1,4 @@
-package co.com.bancolombia.api.handler;
+package co.com.bancolombia.api.handler.command;
 
 import co.com.bancolombia.api.dto.ProductDTO;
 import co.com.bancolombia.api.mappers.ProductDtoMapper;

@@ -2,7 +2,7 @@ package co.com.bancolombia.r2dbc;
 
 
 import co.com.bancolombia.model.productmodel.model.ProductModel;
-import co.com.bancolombia.model.productmodel.gateways.ProductModelRepository;
+import co.com.bancolombia.model.productmodel.gateways.commands.ProductRepository;
 
 import co.com.bancolombia.r2dbc.mapper.ProductEntityMapper;
 import co.com.bancolombia.r2dbc.repository.ProductoRepository;
@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
-public class ProductJpaAdapter implements ProductModelRepository {
+public class ProductJpaAdapter implements ProductRepository {
     private final ProductoRepository productoRepository;
     private final ProductEntityMapper mapper;
 

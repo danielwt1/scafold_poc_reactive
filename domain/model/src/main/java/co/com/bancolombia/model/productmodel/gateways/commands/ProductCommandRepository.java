@@ -1,12 +1,11 @@
-package co.com.bancolombia.model.productmodel.gateways;
+package co.com.bancolombia.model.productmodel.gateways.commands;
 
 import co.com.bancolombia.model.productmodel.model.ProductModel;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface ProductModelRepository {
+public interface ProductCommandRepository {
 
-    Flux<ProductModel> getAll();
     Mono<Void> save(ProductModel productModel);
     Mono<Void> update(ProductModel productModel);
     Mono<Void> delete(Long id);

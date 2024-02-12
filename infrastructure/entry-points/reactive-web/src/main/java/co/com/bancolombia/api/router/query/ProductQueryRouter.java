@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 @Configuration
-public class ProductRouter {
+public class ProductQueryRouter {
     private static final String PRODUCT_PATH = "product";
 
     @Bean
