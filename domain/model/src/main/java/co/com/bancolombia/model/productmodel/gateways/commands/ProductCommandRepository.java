@@ -9,6 +9,7 @@ public interface ProductCommandRepository {
     Mono<Void> save(ProductModel productModel);
     Mono<Void> update(ProductModel productModel);
     Mono<Void> delete(Long id);
-    Mono<ProductModel> findByIdAndName(Long id,String name);
+
     Mono<ProductModel> findById(Long id);
+    Mono<ProductModel> findByIdAndName(Long id,String name);
 }

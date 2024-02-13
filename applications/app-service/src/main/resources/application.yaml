@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
 spring:
   application:
     name: "poc_reactive_scafold"
@@ -31,4 +31,12 @@ database:
   host: ${HOST_DB}
   port: ${PORT_DB}
   database: ${DATABASE_NAME}
+mysql:
+  password: ${PASSWORD_DB_MYSQL}
+  username: ${USERNAME_DB_MYSQL}
+  schema: ${SCHEMA_DB_MYSQL}
+  host: ${HOST_DB_MYSQL}
+  port: ${PORT_DB_MYSQL}
+  database: ${DATABASE_NAME_MYSQL}
+
 
