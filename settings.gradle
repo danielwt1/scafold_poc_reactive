@@ -22,3 +22,5 @@ include ':async-event-bus'
 project(':async-event-bus').projectDir = file('./infrastructure/driven-adapters/async-event-bus')
 include ':mysqlr2dbc'
 project(':mysqlr2dbc').projectDir = file('./infrastructure/driven-adapters/mysqlr2dbc')
+include ':kafka-consumer'
+project(':kafka-consumer').projectDir = file('./infrastructure/entry-points/kafka-consumer')

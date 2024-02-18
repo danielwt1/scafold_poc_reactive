@@ -6,25 +6,25 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table("producto")
 public class Producto {
     @Id
-    private Long idproducto;
+    private Long id;
     private String nombre;
     private Integer precio ;
 
     public Producto() {
     }
 
-    public Producto(Long idproducto, String nombre, Integer precio) {
-        this.idproducto = idproducto;
+    public Producto(Long id, String nombre, Integer precio) {
+        this.id = id;
         this.nombre = nombre;
         this.precio = precio;
     }
 
-    public Long getIdproducto() {
-        return idproducto;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdproducto(Long idproducto) {
-        this.idproducto = idproducto;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNombre() {

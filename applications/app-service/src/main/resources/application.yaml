@@ -13,6 +13,10 @@ spring:
       path: "/h2"
   profiles:
     include: null
+  kafka:
+    consumer:
+      bootstrap-servers: "localhost:29092"
+      group-id: "poc_reactive_scafold"
 management:
   endpoints:
     web:
@@ -25,18 +29,20 @@ management:
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
 database:
-  password: ${PASSWORD_DB}
-  username: ${USERNAME_DB}
-  schema: ${SCHEMA_DB}
-  host: ${HOST_DB}
-  port: ${PORT_DB}
-  database: ${DATABASE_NAME}
+  password: "${PASSWORD_DB}"
+  username: "${USERNAME_DB}"
+  schema: "${SCHEMA_DB}"
+  host: "${HOST_DB}"
+  port: "${PORT_DB}"
+  database: "${DATABASE_NAME}"
 mysql:
-  password: ${PASSWORD_DB_MYSQL}
-  username: ${USERNAME_DB_MYSQL}
-  schema: ${SCHEMA_DB_MYSQL}
-  host: ${HOST_DB_MYSQL}
-  port: ${PORT_DB_MYSQL}
-  database: ${DATABASE_NAME_MYSQL}
-
-
+  password: "${PASSWORD_DB_MYSQL}"
+  username: "${USERNAME_DB_MYSQL}"
+  schema: "${SCHEMA_DB_MYSQL}"
+  host: "${HOST_DB_MYSQL}"
+  port: "${PORT_DB_MYSQL}"
+  database: "${DATABASE_NAME_MYSQL}"
+adapters:
+  kafka:
+    consumer:
+      topic: "test.public.producto"
