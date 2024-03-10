@@ -10,4 +10,5 @@ import reactor.core.publisher.Mono;
 public interface ProductoRepository extends ReactiveCrudRepository<Producto, Long>{
     @Query("SELECT * FROM producto p WHERE p.nombre =:name AND p.id <>:id")
     Mono<Producto> findByName(String name, Long id);
+
 }

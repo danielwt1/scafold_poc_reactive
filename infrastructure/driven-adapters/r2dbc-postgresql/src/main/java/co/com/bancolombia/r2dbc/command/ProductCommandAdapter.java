@@ -1,33 +1,25 @@
-package co.com.bancolombia.r2dbc;
+package co.com.bancolombia.r2dbc.command;
 
 
+import co.com.bancolombia.model.productmodel.gateways.commands.ProductCommandRepository;
 import co.com.bancolombia.model.productmodel.model.ProductModel;
-import co.com.bancolombia.model.productmodel.gateways.ProductModelRepository;
 
-import co.com.bancolombia.r2dbc.mapper.ProductEntityMapper;
+import co.com.bancolombia.r2dbc.mapper.ProductCommandEntityMapper;
 import co.com.bancolombia.r2dbc.repository.ProductoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
-public class ProductJpaAdapter implements ProductModelRepository {
+public class ProductCommandAdapter implements ProductCommandRepository {
     private final ProductoRepository productoRepository;
-    private final ProductEntityMapper mapper;
+    private final ProductCommandEntityMapper mapper;
 
-    public ProductJpaAdapter(ProductoRepository productoRepository, ProductEntityMapper mapper) {
+    public ProductCommandAdapter(ProductoRepository productoRepository, ProductCommandEntityMapper mapper) {
         this.productoRepository = productoRepository;
         this.mapper = mapper;
     }
-
-    @Override
-    public Flux<ProductModel> getAll() {
-        return this.productoRepository.findAll()
-                .map(this.mapper::toModel);
-    }
-
     @Override
     public Mono<Void> save(ProductModel productModel) {
 
@@ -47,7 +39,6 @@ public class ProductJpaAdapter implements ProductModelRepository {
     public Mono<Void> delete(Long id) {
         return this.productoRepository.deleteById(id);
     }
-
     @Override
     public Mono<ProductModel> findByIdAndName(Long id, String name) {
         return this.productoRepository
@@ -61,4 +52,5 @@ public class ProductJpaAdapter implements ProductModelRepository {
                 .findById(id)
                 .map(this.mapper::toModel);
     }
+
 }

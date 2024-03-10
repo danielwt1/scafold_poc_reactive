@@ -1,16 +1,10 @@
-package co.com.bancolombia.r2dbc.config;
+package co.com.bancolombia.mysqlr2dbc.config;
 
-import java.time.Duration;
-import io.r2dbc.pool.ConnectionPool;
-import io.r2dbc.pool.ConnectionPoolConfiguration;
-import io.r2dbc.postgresql.PostgresqlConnectionConfiguration;
-import io.r2dbc.postgresql.PostgresqlConnectionFactory;
 
 import io.r2dbc.spi.ConnectionFactories;
 import io.r2dbc.spi.ConnectionFactory;
 import io.r2dbc.spi.ConnectionFactoryOptions;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -18,47 +12,47 @@ import org.springframework.data.r2dbc.core.DefaultReactiveDataAccessStrategy;
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.data.r2dbc.dialect.MySqlDialect;
-import org.springframework.data.r2dbc.dialect.PostgresDialect;
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 import org.springframework.r2dbc.connection.R2dbcTransactionManager;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.transaction.ReactiveTransactionManager;
 
+
 @Configuration
-@EnableR2dbcRepositories(
-		basePackages = "co.com.bancolombia.r2dbc.repository",
-		entityOperationsRef = "secondaryR2dbcEntityOperations"
+@EnableR2dbcRepositories(basePackages = "co.com.bancolombia.mysqlr2dbc.repository",entityOperationsRef = "r2dbcEntityOperations")
+public class MySQLConnectionPool {
+	private final MySqlConnectionProperties pgProperties;
 
-)
-public class PostgreSQLConnectionPool {
-
-	private final PostgresqlConnectionProperties pgProperties;
-
-	public PostgreSQLConnectionPool(PostgresqlConnectionProperties pgProperties) {
+	public MySQLConnectionPool(MySqlConnectionProperties pgProperties) {
 		this.pgProperties = pgProperties;
 	}
-
-	@Bean(name = "secondaryConnectionFactory")
-	public ConnectionFactory secondaryConnectionFactory() {
+	@Primary
+	@Bean(name = "mysqlConnectionFactory")
+	//@Qualifier("mysqlConnectionFactory")
+	public ConnectionFactory connectionFactory() {
 		return ConnectionFactories.get(ConnectionFactoryOptions.builder()
-				.option(ConnectionFactoryOptions.DRIVER, "postgresql")
+				.option(ConnectionFactoryOptions.DRIVER, "mysql")
 				.option(ConnectionFactoryOptions.HOST, pgProperties.getHost())
 				.option(ConnectionFactoryOptions.PORT, pgProperties.getPort())
 				.option(ConnectionFactoryOptions.USER, pgProperties.getUsername())
 				.option(ConnectionFactoryOptions.PASSWORD, pgProperties.getPassword())
 				.option(ConnectionFactoryOptions.DATABASE, pgProperties.getDatabase())
 				.build());
+
 	}
+	@Primary
 	@Bean
-	public R2dbcEntityOperations secondaryR2dbcEntityOperations(@Qualifier("secondaryConnectionFactory") ConnectionFactory connectionFactory) {
-		DefaultReactiveDataAccessStrategy strategy = new DefaultReactiveDataAccessStrategy(PostgresDialect.INSTANCE);
+	public R2dbcEntityOperations r2dbcEntityOperations(@Qualifier("mysqlConnectionFactory") ConnectionFactory connectionFactory) {
+		DefaultReactiveDataAccessStrategy strategy = new DefaultReactiveDataAccessStrategy(MySqlDialect.INSTANCE);
 		DatabaseClient databaseClient = DatabaseClient.builder()
 				.connectionFactory(connectionFactory)
 				.build();
 		return new R2dbcEntityTemplate(databaseClient, strategy);
 	}
+	@Primary
 	@Bean
-	public ReactiveTransactionManager secondTransactionManager(@Qualifier("secondaryConnectionFactory") ConnectionFactory connectionFactory) {
+	public ReactiveTransactionManager transactionManager(@Qualifier("mysqlConnectionFactory") ConnectionFactory connectionFactory) {
 		return new R2dbcTransactionManager(connectionFactory);
 	}
+
 }
