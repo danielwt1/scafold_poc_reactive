@@ -7,4 +7,5 @@ public interface ProductSyncDataBaseRepository {
 
     Mono<Void> save(ProductSyncDataBaseModel product);
     Mono<Void> update(ProductSyncDataBaseModel product);
+    Mono<Void> delete(Long id);
 }

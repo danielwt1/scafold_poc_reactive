@@ -1,16 +1,14 @@
-package co.com.bancolombia.mysqlr2dbc.mapper;
+package co.com.bancolombia.api.handler.query.mappers;
 
+import co.com.bancolombia.api.handler.query.querys.ProductQuery;
 import co.com.bancolombia.model.productmodel.model.ProductModel;
-
-import co.com.bancolombia.mysqlr2dbc.entity.Producto;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
-public interface ProductQueryEntityMapper {
-    ProductModel toModel(Producto producto);
-    Producto toEntity(ProductModel productModel);
-
+public interface ProductQuerysMapper {
+    ProductModel toModel(ProductQuery producto);
+    ProductQuery toDTO(ProductModel producto);
 }

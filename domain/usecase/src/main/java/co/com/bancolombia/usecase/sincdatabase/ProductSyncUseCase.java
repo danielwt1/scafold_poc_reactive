@@ -15,4 +15,11 @@ public class ProductSyncUseCase {
         return this.productSyncDataBaseRepository.save(product);
     }
 
+    public Mono<Void> updateProduct(ProductSyncDataBaseModel product) {
+        return this.productSyncDataBaseRepository.update(product);
+    }
+    public Mono<Void> deleteProduct(Long id) {
+        return this.productSyncDataBaseRepository.delete(id);
+    }
+
 }

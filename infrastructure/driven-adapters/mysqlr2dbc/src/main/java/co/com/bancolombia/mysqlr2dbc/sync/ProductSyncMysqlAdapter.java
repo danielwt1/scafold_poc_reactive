@@ -27,4 +27,9 @@ public class ProductSyncMysqlAdapter implements ProductSyncDataBaseRepository {
     public Mono<Void> update(ProductSyncDataBaseModel product) {
         return this.productRepositoryQuery.save(this.productSyncMapper.toEntity(product)).then();
     }
+
+    @Override
+    public Mono<Void> delete(Long id) {
+        return this.productRepositoryQuery.deleteById(id).then();
+    }
 }

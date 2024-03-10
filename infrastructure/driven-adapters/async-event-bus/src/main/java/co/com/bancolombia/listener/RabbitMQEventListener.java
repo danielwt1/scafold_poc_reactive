@@ -74,4 +74,17 @@ public class RabbitMQEventListener {
         //.subscribe( m ->log.info("Mensaje enviado"));
     }
 
+    /* example: cuando quiero digamos enviar todos los eventos de un tipo a una sola cola*/
+    /*
+    private Mono<Void> sendtoRabbit(OutboundMessage message) {
+        String queue = "com.co.domain.event.product";
+        String routingKey = "domain.event.product.*";
+        return sender.declareQueue(QueueSpecification.queue(queue))
+                .thenMany(sender.declareExchange(ExchangeSpecification.exchange("CUSTOM_TOPIC").type(ExchangeTypes.TOPIC).durable(true)))
+                .thenMany(sender.bindQueue(BindingSpecification.binding("CUSTOM_TOPIC", routingKey, queue)))
+                .thenMany(sender.sendWithPublishConfirms(Mono.just(message)))
+                .doOnError(e -> log.info("Error")).then();
+    }
+     */
+
 }

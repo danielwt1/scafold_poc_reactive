@@ -31,20 +31,44 @@ public class KafkaConsumer {
                 .flatMap(kafkaRecord -> {
                     log.info("Record received {}", kafkaRecord.value());
                     try {
+                        ProductSyncDataBaseModel product = null;
                         // Convert the record value to a JsonNode
                         JsonNode jsonNode = objectMapper.readTree((String) kafkaRecord.value());
 
+                        // Get the operation type
+                        String operationType = jsonNode.get("payload").get("op").asText();
+
                         // Extract the 'after' field, which contains the product data
                         JsonNode afterNode = jsonNode.get("payload").get("after");
+                        JsonNode beforeNode = jsonNode.get("payload").get("before");
 
                         // Convert the 'after' field to a ProductSyncDataBaseModel
-                        ProductSyncDataBaseModel product = objectMapper.treeToValue(afterNode, ProductSyncDataBaseModel.class);
+                        if(operationType.equals("d")){
+                            product = objectMapper.treeToValue(beforeNode, ProductSyncDataBaseModel.class);
+                        }
+                        else{
+                            product = objectMapper.treeToValue(afterNode, ProductSyncDataBaseModel.class);
+                        }
 
-                        return this.productSyncUseCase.saveProduct(product);
+                        return switch (operationType) {
+                            case "c" -> // create operation
+                                    this.productSyncUseCase.saveProduct(product);
+                            case "u" -> // update operation
+                                // handle update operation
+                                    this.productSyncUseCase.updateProduct(product);
+                            case "d" -> // delete operation
+                                // handle delete operation
+                                    this.productSyncUseCase.deleteProduct(product.getId());
+                            default -> {
+                                log.warn("Unknown operation type: {}", operationType);
+                                yield Mono.empty();
+                            }
+                        };
                     } catch (JsonProcessingException e) {
                         log.error("Error processing kafka record", e);
                         return Mono.empty();
-                    }})
+                    }
+                })
                 .doOnError(error -> log.error("Error processing kafka record", error))
                 .retry()
                 .repeat();
