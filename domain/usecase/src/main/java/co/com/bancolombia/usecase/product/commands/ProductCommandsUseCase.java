@@ -44,11 +44,13 @@ public class ProductCommandsUseCase {
                 .onErrorMap(e -> new ProductException(String.format("Error al guardar la causa fue : %s", e.getMessage())))
                 //no bloquea puede ser para quizas logear algun error o algo asi
                 .doOnError(err -> System.out.println(String.format("Oucrrio el error: %s", err)))
-
-                .map(el -> "Se actualizo correctamente");
+                .then(eventsGateway.emit(new DomainEvent(new DomainEventData(UUID.randomUUID(), "domain.event.product.updated", LocalDate.now(), model), new MetadataModel("host", "USER"))))
+                .then(Mono.fromCallable(() -> "Se actualizo correctamente"));
     }
     public Mono<String> delete(Long id) {
         return this.productRepository.findById(id)
-                .hasElement().flatMap(exist -> Boolean.TRUE.equals(exist) ? this.delete(id) : Mono.error(new RuntimeException("No existe")));
+                .hasElement().flatMap(exist -> Boolean.TRUE.equals(exist) ? this.productRepository.delete(id) : Mono.error(new RuntimeException("No existe")))
+                .then(eventsGateway.emit(new DomainEvent(new DomainEventData(UUID.randomUUID(), "domain.event.product.deleted", LocalDate.now(), id), new MetadataModel("host", "uSER2"))))
+                .then(Mono.just("Se elimino correctamente"));
     }
 }

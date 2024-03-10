@@ -1,7 +1,7 @@
 package co.com.bancolombia.api.handler.command;
 
-import co.com.bancolombia.api.dto.ProductDTO;
-import co.com.bancolombia.api.mappers.ProductDtoMapper;
+import co.com.bancolombia.api.handler.command.commands.ProductCommand;
+import co.com.bancolombia.api.handler.command.mappers.ProductCommandsMapper;
 import co.com.bancolombia.usecase.product.commands.ProductCommandsUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,9 +15,9 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ProductCommandHandler {
     private  final ProductCommandsUseCase useCase;
-    private final ProductDtoMapper mapper;
+    private final ProductCommandsMapper mapper;
     public Mono<ServerResponse> save(ServerRequest request) {
-        Mono<ProductDTO> body = request.bodyToMono(ProductDTO.class);
+        Mono<ProductCommand> body = request.bodyToMono(ProductCommand.class);
         return body.flatMap(element -> ServerResponse
                 .status(HttpStatus.CREATED)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -26,7 +26,7 @@ public class ProductCommandHandler {
 
     public Mono<ServerResponse> update(ServerRequest request) {
         Long id = Long.valueOf(request.pathVariable("id"));
-        Mono<ProductDTO> body = request.bodyToMono(ProductDTO.class);
+        Mono<ProductCommand> body = request.bodyToMono(ProductCommand.class);
         return body.flatMap(element -> ServerResponse
                 .status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)

@@ -1,8 +1,7 @@
 package co.com.bancolombia.api.handler.query;
 
-import co.com.bancolombia.api.dto.ProductDTO;
-import co.com.bancolombia.api.mappers.ProductDtoMapper;
-import co.com.bancolombia.usecase.product.commands.ProductCommandsUseCase;
+import co.com.bancolombia.api.handler.query.mappers.ProductQuerysMapper;
+import co.com.bancolombia.api.handler.query.querys.ProductQuery;
 import co.com.bancolombia.usecase.product.querys.ProductQueryUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,15 +16,15 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ProductQuerysHandler {
     private  final ProductQueryUseCase useCase;
-    private final ProductDtoMapper mapper;
+    private final ProductQuerysMapper mapper;
 
     public Mono<ServerResponse> getAll(ServerRequest request) {
-        Flux<ProductDTO> response = this.useCase.getAll()
+        Flux<ProductQuery> response = this.useCase.getAll()
                 .map(this.mapper::toDTO);
         //Mono<>
         return ServerResponse.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(response,ProductDTO.class);
+                .body(response,ProductQuery.class);
     }
 
 
